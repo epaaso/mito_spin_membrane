@@ -851,7 +851,7 @@ export default function MembraneClosedCurveSimulator2D() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 to-slate-900 p-3 text-slate-100">
-      <div className="mx-auto max-w-6xl space-y-3">
+      <div className="mx-auto max-w-7xl space-y-3">
         <header className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="min-w-0">
@@ -880,7 +880,7 @@ export default function MembraneClosedCurveSimulator2D() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,3fr)_minmax(280px,2fr)] lg:items-stretch">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_360px] md:items-start">
           <div className="flex flex-col gap-2 rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
             <div className="flex flex-wrap items-center justify-between gap-2 px-1">
               <div className="flex items-center gap-2">
@@ -932,126 +932,138 @@ export default function MembraneClosedCurveSimulator2D() {
             </div>
           </div>
 
-          <div className="lg:max-h-[calc(100vh-200px)] lg:overflow-auto space-y-3">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
-              <div className="grid grid-cols-2 gap-3">
-                <Select
-                  label="Case"
-                  value={caseMode}
-                  setValue={(v) => {
-                    setRunning(false);
-                    setCaseMode(v);
-                  }}
-                  options={[
-                    { value: "A", label: "Case A (no m)" },
-                    { value: "B", label: "Case B (+ m)" },
-                  ]}
-                />
-
-                <Select
-                  label="Background"
-                  value={bgView}
-                  setValue={(v) => {
-                    setRunning(false);
-                    setBgView(v);
-                    scaleRef.current = null;
-                  }}
-                  options={[
-                    { value: "g", label: "g_on_main_membrane" },
-                    { value: "phi", label: "φ" },
-                    { value: "m", label: "m" },
-                  ]}
-                />
-
-                <Select
-                  label="Initial"
-                  value={initMode}
-                  setValue={(v) => {
-                    setRunning(false);
-                    setInitMode(v);
-                  }}
-                  options={[
-                    { value: "circle", label: "Circle" },
-                    { value: "noisy", label: "Circle + noise" },
-                    { value: "wobbly", label: "Wobbly circle" },
-                  ]}
-                />
-
-                <Select
-                  label="g pattern (along membrane)"
-                  value={gMode}
-                  setValue={(v) => {
-                    setRunning(false);
-                    setGMode(v);
-                  }}
-                  options={[
-                    { value: "patches", label: "Patches (angle)" },
-                    { value: "sin", label: "Sine (angle)" },
-                    { value: "uniform", label: "Uniform" },
-                  ]}
-                />
-
-                <label className="col-span-2 block">
-                  <div className="mb-1 text-sm font-medium text-slate-200">Seed</div>
-                  <div className="flex gap-2">
-                    <input
-                      type="number"
-                      value={seed}
-                      onChange={(e) => {
+          <div className="space-y-3">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="space-y-3">
+                <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
+                  <div className="grid grid-cols-2 gap-3">
+                    <Select
+                      label="Case"
+                      value={caseMode}
+                      setValue={(v) => {
                         setRunning(false);
-                        setSeed(parseInt(e.target.value || "0", 10));
+                        setCaseMode(v);
                       }}
-                      className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 shadow"
+                      options={[
+                        { value: "A", label: "Case A (no m)" },
+                        { value: "B", label: "Case B (+ m)" },
+                      ]}
                     />
-                    <button
-                      onClick={() => {
+
+                    <Select
+                      label="Background"
+                      value={bgView}
+                      setValue={(v) => {
                         setRunning(false);
-                        setSeed((s) => (s + 1) % 100000);
+                        setBgView(v);
+                        scaleRef.current = null;
                       }}
-                      className="rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm font-semibold text-slate-100 shadow hover:bg-slate-800"
-                    >
-                      +
-                    </button>
+                      options={[
+                        { value: "g", label: "g_on_main_membrane" },
+                        { value: "phi", label: "φ" },
+                        { value: "m", label: "m" },
+                      ]}
+                    />
+
+                    <Select
+                      label="Initial"
+                      value={initMode}
+                      setValue={(v) => {
+                        setRunning(false);
+                        setInitMode(v);
+                      }}
+                      options={[
+                        { value: "circle", label: "Circle" },
+                        { value: "noisy", label: "Circle + noise" },
+                        { value: "wobbly", label: "Wobbly circle" },
+                      ]}
+                    />
+
+                    <Select
+                      label="g pattern (along membrane)"
+                      value={gMode}
+                      setValue={(v) => {
+                        setRunning(false);
+                        setGMode(v);
+                      }}
+                      options={[
+                        { value: "patches", label: "Patches (angle)" },
+                        { value: "sin", label: "Sine (angle)" },
+                        { value: "uniform", label: "Uniform" },
+                      ]}
+                    />
+
+                    <label className="col-span-2 block">
+                      <div className="mb-1 text-sm font-medium text-slate-200">Seed</div>
+                      <div className="flex gap-2">
+                        <input
+                          type="number"
+                          value={seed}
+                          onChange={(e) => {
+                            setRunning(false);
+                            setSeed(parseInt(e.target.value || "0", 10));
+                          }}
+                          className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 shadow"
+                        />
+                        <button
+                          onClick={() => {
+                            setRunning(false);
+                            setSeed((s) => (s + 1) % 100000);
+                          }}
+                          className="rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm font-semibold text-slate-100 shadow hover:bg-slate-800"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </label>
                   </div>
-                </label>
+                </div>
+
+                <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
+                  <div className="space-y-3">
+                    <div className="text-sm font-semibold text-slate-200">Resolution</div>
+                    <IntSlider label="N" value={N} setValue={(v) => { setRunning(false); setN(v); }} min={64} max={256} step={16} />
+                    <Slider label="L" value={L} setValue={(v) => { setRunning(false); setL(v); }} min={48} max={160} step={1} />
+
+                    <div className="mt-2 text-sm font-semibold text-slate-200">Membrane</div>
+                    <Slider label="ε" value={epsilon} setValue={(v) => { setRunning(false); setEpsilon(v); }} min={0.9} max={3.0} step={0.05} />
+                    <Slider label="initial radius" value={radiusFrac} setValue={(v) => { setRunning(false); setRadiusFrac(v); }} min={0.12} max={0.35} step={0.005} />
+                    <Slider label="initial noise" value={noiseAmp} setValue={(v) => { setRunning(false); setNoiseAmp(v); }} min={0.0} max={0.2} step={0.005} />
+
+                    <div className="mt-2 text-sm font-semibold text-slate-200">g on membrane only</div>
+                    <Slider label="I sharp" value={iClamp} setValue={(v) => { setRunning(false); setIClamp(v); }} min={1.0} max={8.0} step={0.25} />
+                    <IntSlider label="bandPx" value={bandPx} setValue={(v) => { setRunning(false); setBandPx(v); }} min={1} max={12} step={1} hint="band width" />
+
+                    <div className="mt-2 text-sm font-semibold text-slate-200">Couplings</div>
+                    <Slider label="ρg" value={rhoG} setValue={setRhoG} min={0.0} max={3.0} step={0.02} />
+                    <Slider label="ρm" value={rhoM} setValue={setRhoM} min={0.0} max={3.0} step={0.02} />
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-3 space-y-3">
-                <div className="text-sm font-semibold text-slate-200">Resolution</div>
-                <IntSlider label="N" value={N} setValue={(v) => { setRunning(false); setN(v); }} min={64} max={256} step={16} />
-                <Slider label="L" value={L} setValue={(v) => { setRunning(false); setL(v); }} min={48} max={160} step={1} />
+              <div className="space-y-3">
+                <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
+                  <div className="space-y-3">
+                    <div className="text-sm font-semibold text-slate-200">g (angle)</div>
+                    <IntSlider label="# patches / frequency" value={nPatches} setValue={(v) => { setRunning(false); setNPatches(v); }} min={1} max={16} step={1} />
+                    <Slider label="σθ" value={sigmaTheta} setValue={(v) => { setRunning(false); setSigmaTheta(v); }} min={0.12} max={1.2} step={0.02} />
 
-                <div className="mt-2 text-sm font-semibold text-slate-200">Membrane</div>
-                <Slider label="ε" value={epsilon} setValue={(v) => { setRunning(false); setEpsilon(v); }} min={0.9} max={3.0} step={0.05} />
-                <Slider label="initial radius" value={radiusFrac} setValue={(v) => { setRunning(false); setRadiusFrac(v); }} min={0.12} max={0.35} step={0.005} />
-                <Slider label="initial noise" value={noiseAmp} setValue={(v) => { setRunning(false); setNoiseAmp(v); }} min={0.0} max={0.2} step={0.005} />
+                    <div className="mt-2 text-sm font-semibold text-slate-200">Integration</div>
+                    <Slider label="dt" value={dt} setValue={setDt} min={0.002} max={0.03} step={0.001} />
+                    <IntSlider label="substeps" value={substeps} setValue={setSubsteps} min={1} max={30} step={1} />
+                  </div>
+                </div>
 
-                <div className="mt-2 text-sm font-semibold text-slate-200">g on membrane only</div>
-                <Slider label="I sharp" value={iClamp} setValue={(v) => { setRunning(false); setIClamp(v); }} min={1.0} max={8.0} step={0.25} />
-                <IntSlider label="bandPx" value={bandPx} setValue={(v) => { setRunning(false); setBandPx(v); }} min={1} max={12} step={1} hint="band width" />
-
-                <div className="mt-2 text-sm font-semibold text-slate-200">Couplings</div>
-                <Slider label="ρg" value={rhoG} setValue={setRhoG} min={0.0} max={3.0} step={0.02} />
-                <Slider label="ρm" value={rhoM} setValue={setRhoM} min={0.0} max={3.0} step={0.02} />
-
-                <div className="mt-2 text-sm font-semibold text-slate-200">g (angle)</div>
-                <IntSlider label="# patches / frequency" value={nPatches} setValue={(v) => { setRunning(false); setNPatches(v); }} min={1} max={16} step={1} />
-                <Slider label="σθ" value={sigmaTheta} setValue={(v) => { setRunning(false); setSigmaTheta(v); }} min={0.12} max={1.2} step={0.02} />
-
-                <div className="mt-2 text-sm font-semibold text-slate-200">Integration</div>
-                <Slider label="dt" value={dt} setValue={setDt} min={0.002} max={0.03} step={0.001} />
-                <IntSlider label="substeps" value={substeps} setValue={setSubsteps} min={1} max={30} step={1} />
-              </div>
-            </div>
-
-            <div className={`rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow ${caseMode !== "B" ? "opacity-50" : ""}`}>
-              <div className="text-sm font-semibold text-slate-200">m (Case B only)</div>
-              <div className="mt-3 space-y-3">
-                <Slider label="χ" value={chi} setValue={setChi} min={0.2} max={3.0} step={0.02} />
-                <Slider label="ξ" value={xi} setValue={setXi} min={0.0} max={2.5} step={0.02} />
-                <Slider label="μ" value={mu} setValue={setMu} min={0.0} max={2.5} step={0.02} />
-                <Slider label="λ" value={lam} setValue={setLam} min={0.0} max={2.5} step={0.02} />
-                <Slider label="γ_out" value={gammaOut} setValue={setGammaOut} min={0.0} max={4.0} step={0.05} />
+                <div className={`rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow ${caseMode !== "B" ? "opacity-50" : ""}`}>
+                  <div className="text-sm font-semibold text-slate-200">m (Case B only)</div>
+                  <div className="mt-3 space-y-3">
+                    <Slider label="χ" value={chi} setValue={setChi} min={0.2} max={3.0} step={0.02} />
+                    <Slider label="ξ" value={xi} setValue={setXi} min={0.0} max={2.5} step={0.02} />
+                    <Slider label="μ" value={mu} setValue={setMu} min={0.0} max={2.5} step={0.02} />
+                    <Slider label="λ" value={lam} setValue={setLam} min={0.0} max={2.5} step={0.02} />
+                    <Slider label="γ_out" value={gammaOut} setValue={setGammaOut} min={0.0} max={4.0} step={0.05} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
