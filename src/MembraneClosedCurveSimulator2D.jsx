@@ -701,7 +701,7 @@ export default function MembraneClosedCurveSimulator2D() {
       title = "m";
     }
 
-    renderHeatmap(canvas, field, N, `${caseMode === "A" ? "Caso A" : "Caso B"} — fondo: ${title}`, lockScale, scaleRef);
+    renderHeatmap(canvas, field, N, `${caseMode === "A" ? "Case A" : "Case B"} — background: ${title}`, lockScale, scaleRef);
 
     if (showMembrane) {
       const ctx = canvas.getContext("2d");
@@ -727,32 +727,32 @@ export default function MembraneClosedCurveSimulator2D() {
   }, [running, dt, substeps, epsilon, rhoG, rhoM, chi, xi, mu, lam, gammaOut, N, L, invDx2, lockScale, showMembrane, bgView, caseMode, iClamp, bandPx, keepCentered]);
 
   // -------- UI components --------
-  // Tooltips: cada control muestra ayuda al pasar el mouse.
-  // Si quieres ampliar/editar textos, cambia este mapa.
+  // Tooltips: each control shows help on hover.
+  // Edit text here if you want to expand explanations.
   const HELP_MAP = {
-    Caso: "A: sin alineación/orden adicional. B: incluye el campo m (orden/alineación) que puede sincronizarse y acoplarse a g.",
-    Fondo: "Qué se pinta de fondo: g sobre la membrana, φ (interior/exterior) o m (orden).",
-    Inicial: "Forma inicial de la vesícula (siempre curva cerrada).",
-    "Patrón g (a lo largo)": "Cómo se distribuye g a lo largo de la membrana principal (por ángulo alrededor del centro).",
-    Seed: "Semilla aleatoria reproducible (afecta ruido inicial y parches de g).",
-    N: "Tamaño de la malla N×N (más N = más detalle, más lento).",
-    L: "Tamaño físico del dominio. dx=L/N.",
-    "ε": "Ancho/suavidad de la interfase. Menor ε = membrana más flexible (más invaginaciones) pero requiere dt menor.",
-    "radio inicial": "Radio inicial (fracción de L).",
-    "ruido inicial": "Ruido inicial en φ (rompe simetrías).",
-    "I sharp": "Exponente p en I(φ)=max(0,1−φ²)^p. Mayor = localización más delgada a φ≈0.",
-    bandPx: "Ancho (en pixeles) de la banda alrededor del contorno principal donde viven g y acoplamientos.",
-    "ρg": "Fuerza del acoplamiento g→φ (deformación de la membrana por g).",
-    "ρm": "Fuerza del acoplamiento m→φ (solo Caso B).",
-    "# parches / frecuencia": "Número de islitas de g (patches) o frecuencia si es senoidal.",
-    "σθ": "Ancho angular de cada islita de g. Más pequeño = islitas más pequeñas.",
-    dt: "Paso de tiempo (bájalo si hay inestabilidad).",
-    substeps: "Sub-iteraciones por frame (súbelo para estabilidad).",
-    "χ": "Relajación/ganancia de m (qué tan rápido responde).",
-    "ξ": "Difusión de m (suaviza m en el espacio).",
-    "μ": "Acoplamiento g→m (qué tanto m sigue a g sobre la membrana).",
-    "λ": "Sesgo que mantiene m activo sobre la membrana.",
-    "γ_out": "Amortiguamiento de m fuera de la membrana.",
+    Case: "A: no extra ordering. B: adds field m (alignment/order) coupled to g.",
+    Background: "Which field is shown: g on membrane, φ (inside/outside), or m (order).",
+    Initial: "Initial vesicle shape (always a closed curve).",
+    "g pattern (along membrane)": "How g is distributed along the main membrane (angle around center).",
+    Seed: "Reproducible seed (affects initial noise and g patches).",
+    N: "Grid size N×N (higher N = more detail, slower).",
+    L: "Physical domain size. dx=L/N.",
+    "ε": "Interface width/smoothness. Lower ε = more flexible but needs smaller dt.",
+    "initial radius": "Initial radius (fraction of L).",
+    "initial noise": "Initial noise in φ (breaks symmetry).",
+    "I sharp": "Exponent p in I(φ)=max(0,1−φ²)^p. Larger = thinner localization near φ≈0.",
+    bandPx: "Band width (pixels) around the main contour where g and couplings live.",
+    "ρg": "Strength of g→φ coupling (membrane deformation by g).",
+    "ρm": "Strength of m→φ coupling (Case B only).",
+    "# patches / frequency": "Number of g patches or sine frequency.",
+    "σθ": "Angular width of each g patch. Smaller = tighter patches.",
+    dt: "Time step (lower if unstable).",
+    substeps: "Sub-iterations per frame (higher = more stable).",
+    "χ": "m relaxation/gain (how fast it responds).",
+    "ξ": "m diffusion (spatial smoothing).",
+    "μ": "g→m coupling strength (how much m follows g).",
+    "λ": "Bias keeping m active on the membrane.",
+    "γ_out": "Damping of m outside the membrane.",
   };
 
   const helpFor = (label, hint) => {
@@ -850,19 +850,19 @@ export default function MembraneClosedCurveSimulator2D() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 to-slate-900 p-4 text-slate-100">
-      <div className="mx-auto max-w-6xl space-y-4">
-        <header className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4 shadow">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h1 className="text-xl font-semibold tracking-tight">Membrana única (curva cerrada φ=0) — g SOLO en esa membrana</h1>
-              <p className="mt-1 text-sm text-slate-300">
-                Extraemos el contorno principal (más grande) y construimos una banda alrededor: ahí vive <span className="font-semibold">g_on_main_membrane</span>.
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 to-slate-900 p-3 text-slate-100">
+      <div className="mx-auto max-w-6xl space-y-3">
+        <header className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="min-w-0">
+              <h1 className="text-lg font-semibold tracking-tight">Single membrane (closed φ=0 curve) — g ONLY on that membrane</h1>
+              <p className="mt-1 text-xs text-slate-300">
+                We extract the largest contour and build a narrow band around it: that is where <span className="font-semibold">g_on_main_membrane</span> lives.
               </p>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => setRunning((r) => !r)} className={`rounded-xl px-4 py-2 text-sm font-semibold shadow ${running ? "bg-rose-500/90 hover:bg-rose-500" : "bg-emerald-500/90 hover:bg-emerald-500"}`}>
-                {running ? "Pausar" : "Iniciar"}
+                {running ? "Pause" : "Start"}
               </button>
               <button
                 onClick={() => {
@@ -871,7 +871,7 @@ export default function MembraneClosedCurveSimulator2D() {
                 }}
                 className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-100 shadow hover:bg-slate-800"
               >
-                Paso
+                Step
               </button>
               <button onClick={reset} className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-100 shadow hover:bg-slate-800">
                 Reset
@@ -880,17 +880,17 @@ export default function MembraneClosedCurveSimulator2D() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
-          <div className="lg:col-span-3 space-y-3 rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,3fr)_minmax(280px,2fr)] lg:items-stretch">
+          <div className="flex flex-col gap-2 rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
             <div className="flex flex-wrap items-center justify-between gap-2 px-1">
               <div className="flex items-center gap-2">
-                <div className="text-sm font-semibold text-slate-200">Vista</div>
-                <div className="text-xs text-slate-400">(línea blanca = membrana principal; g aparece solo ahí)</div>
+                <div className="text-sm font-semibold text-slate-200">View</div>
+                <div className="text-xs text-slate-400">(white line = main membrane; g appears only there)</div>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <label className="flex items-center gap-2 text-xs text-slate-300">
                   <input type="checkbox" checked={showMembrane} onChange={(e) => setShowMembrane(e.target.checked)} className="accent-sky-400" />
-                  mostrar membrana
+                  show membrane
                 </label>
                 <label className="flex items-center gap-2 text-xs text-slate-300">
                   <input
@@ -899,7 +899,7 @@ export default function MembraneClosedCurveSimulator2D() {
                     onChange={(e) => setKeepCentered(e.target.checked)}
                     className="accent-sky-400"
                   />
-                  centrar vesícula
+                  center vesicle
                 </label>
                 <label className="flex items-center gap-2 text-xs text-slate-300">
                   <input
@@ -916,35 +916,40 @@ export default function MembraneClosedCurveSimulator2D() {
               </div>
             </div>
 
-            <canvas ref={heatRef} width={860} height={520} className="h-[420px] w-full rounded-2xl border border-slate-800 bg-slate-950" />
+            <canvas
+              ref={heatRef}
+              width={860}
+              height={520}
+              className="h-[40vh] min-h-[280px] max-h-[520px] w-full rounded-2xl border border-slate-800 bg-slate-950"
+            />
 
             <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3 text-xs text-slate-300">
-              <div className="font-semibold text-slate-200">Recomendación estable</div>
+              <div className="font-semibold text-slate-200">Stability tips</div>
               <ul className="mt-2 list-disc space-y-1 pl-5">
-                <li>Si ves artefactos: baja <span className="font-semibold">dt</span> o sube <span className="font-semibold">substeps</span>.</li>
-                <li>Si g se ve “muy grueso”: baja <span className="font-semibold">bandPx</span> o sube <span className="font-semibold">I sharp</span>.</li>
+                <li>If you see artifacts: lower <span className="font-semibold">dt</span> or raise <span className="font-semibold">substeps</span>.</li>
+                <li>If g looks too thick: lower <span className="font-semibold">bandPx</span> or raise <span className="font-semibold">I sharp</span>.</li>
               </ul>
             </div>
           </div>
 
-          <div className="lg:col-span-2 space-y-4">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4 shadow">
+          <div className="lg:max-h-[calc(100vh-200px)] lg:overflow-auto space-y-3">
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
               <div className="grid grid-cols-2 gap-3">
                 <Select
-                  label="Caso"
+                  label="Case"
                   value={caseMode}
                   setValue={(v) => {
                     setRunning(false);
                     setCaseMode(v);
                   }}
                   options={[
-                    { value: "A", label: "Caso A (sin m)" },
-                    { value: "B", label: "Caso B (+ m)" },
+                    { value: "A", label: "Case A (no m)" },
+                    { value: "B", label: "Case B (+ m)" },
                   ]}
                 />
 
                 <Select
-                  label="Fondo"
+                  label="Background"
                   value={bgView}
                   setValue={(v) => {
                     setRunning(false);
@@ -959,30 +964,30 @@ export default function MembraneClosedCurveSimulator2D() {
                 />
 
                 <Select
-                  label="Inicial"
+                  label="Initial"
                   value={initMode}
                   setValue={(v) => {
                     setRunning(false);
                     setInitMode(v);
                   }}
                   options={[
-                    { value: "circle", label: "Círculo" },
-                    { value: "noisy", label: "Círculo + ruido" },
-                    { value: "wobbly", label: "Círculo ondulado" },
+                    { value: "circle", label: "Circle" },
+                    { value: "noisy", label: "Circle + noise" },
+                    { value: "wobbly", label: "Wobbly circle" },
                   ]}
                 />
 
                 <Select
-                  label="Patrón g (a lo largo)"
+                  label="g pattern (along membrane)"
                   value={gMode}
                   setValue={(v) => {
                     setRunning(false);
                     setGMode(v);
                   }}
                   options={[
-                    { value: "patches", label: "Parches (ángulo)" },
-                    { value: "sin", label: "Senoidal (ángulo)" },
-                    { value: "uniform", label: "Uniforme" },
+                    { value: "patches", label: "Patches (angle)" },
+                    { value: "sin", label: "Sine (angle)" },
+                    { value: "uniform", label: "Uniform" },
                   ]}
                 />
 
@@ -1011,36 +1016,36 @@ export default function MembraneClosedCurveSimulator2D() {
                 </label>
               </div>
 
-              <div className="mt-4 space-y-3">
-                <div className="text-sm font-semibold text-slate-200">Resolución</div>
+              <div className="mt-3 space-y-3">
+                <div className="text-sm font-semibold text-slate-200">Resolution</div>
                 <IntSlider label="N" value={N} setValue={(v) => { setRunning(false); setN(v); }} min={64} max={256} step={16} />
                 <Slider label="L" value={L} setValue={(v) => { setRunning(false); setL(v); }} min={48} max={160} step={1} />
 
-                <div className="mt-2 text-sm font-semibold text-slate-200">Membrana</div>
+                <div className="mt-2 text-sm font-semibold text-slate-200">Membrane</div>
                 <Slider label="ε" value={epsilon} setValue={(v) => { setRunning(false); setEpsilon(v); }} min={0.9} max={3.0} step={0.05} />
-                <Slider label="radio inicial" value={radiusFrac} setValue={(v) => { setRunning(false); setRadiusFrac(v); }} min={0.12} max={0.35} step={0.005} />
-                <Slider label="ruido inicial" value={noiseAmp} setValue={(v) => { setRunning(false); setNoiseAmp(v); }} min={0.0} max={0.2} step={0.005} />
+                <Slider label="initial radius" value={radiusFrac} setValue={(v) => { setRunning(false); setRadiusFrac(v); }} min={0.12} max={0.35} step={0.005} />
+                <Slider label="initial noise" value={noiseAmp} setValue={(v) => { setRunning(false); setNoiseAmp(v); }} min={0.0} max={0.2} step={0.005} />
 
-                <div className="mt-2 text-sm font-semibold text-slate-200">g solo en membrana</div>
+                <div className="mt-2 text-sm font-semibold text-slate-200">g on membrane only</div>
                 <Slider label="I sharp" value={iClamp} setValue={(v) => { setRunning(false); setIClamp(v); }} min={1.0} max={8.0} step={0.25} />
-                <IntSlider label="bandPx" value={bandPx} setValue={(v) => { setRunning(false); setBandPx(v); }} min={1} max={12} step={1} hint="ancho de la banda" />
+                <IntSlider label="bandPx" value={bandPx} setValue={(v) => { setRunning(false); setBandPx(v); }} min={1} max={12} step={1} hint="band width" />
 
-                <div className="mt-2 text-sm font-semibold text-slate-200">Acoplamientos</div>
+                <div className="mt-2 text-sm font-semibold text-slate-200">Couplings</div>
                 <Slider label="ρg" value={rhoG} setValue={setRhoG} min={0.0} max={3.0} step={0.02} />
                 <Slider label="ρm" value={rhoM} setValue={setRhoM} min={0.0} max={3.0} step={0.02} />
 
-                <div className="mt-2 text-sm font-semibold text-slate-200">g (ángulo)</div>
-                <IntSlider label="# parches / frecuencia" value={nPatches} setValue={(v) => { setRunning(false); setNPatches(v); }} min={1} max={16} step={1} />
+                <div className="mt-2 text-sm font-semibold text-slate-200">g (angle)</div>
+                <IntSlider label="# patches / frequency" value={nPatches} setValue={(v) => { setRunning(false); setNPatches(v); }} min={1} max={16} step={1} />
                 <Slider label="σθ" value={sigmaTheta} setValue={(v) => { setRunning(false); setSigmaTheta(v); }} min={0.12} max={1.2} step={0.02} />
 
-                <div className="mt-2 text-sm font-semibold text-slate-200">Integración</div>
+                <div className="mt-2 text-sm font-semibold text-slate-200">Integration</div>
                 <Slider label="dt" value={dt} setValue={setDt} min={0.002} max={0.03} step={0.001} />
                 <IntSlider label="substeps" value={substeps} setValue={setSubsteps} min={1} max={30} step={1} />
               </div>
             </div>
 
-            <div className={`rounded-2xl border border-slate-800 bg-slate-950/60 p-4 shadow ${caseMode !== "B" ? "opacity-50" : ""}`}>
-              <div className="text-sm font-semibold text-slate-200">m (solo Caso B)</div>
+            <div className={`rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow ${caseMode !== "B" ? "opacity-50" : ""}`}>
+              <div className="text-sm font-semibold text-slate-200">m (Case B only)</div>
               <div className="mt-3 space-y-3">
                 <Slider label="χ" value={chi} setValue={setChi} min={0.2} max={3.0} step={0.02} />
                 <Slider label="ξ" value={xi} setValue={setXi} min={0.0} max={2.5} step={0.02} />
@@ -1052,8 +1057,8 @@ export default function MembraneClosedCurveSimulator2D() {
           </div>
         </div>
 
-        <footer className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4 text-xs text-slate-400 shadow">
-          <span className="font-semibold text-slate-300">Nota:</span> si φ llegara a crear otras interfases, <span className="font-semibold">maskMain</span> garantiza que g y los acoplamientos solo actúen sobre la membrana principal.
+        <footer className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 text-xs text-slate-400 shadow">
+          <span className="font-semibold text-slate-300">Note:</span> if φ creates other interfaces, <span className="font-semibold">maskMain</span> keeps g and couplings only on the main membrane.
         </footer>
       </div>
     </div>
