@@ -1013,8 +1013,8 @@ export default function MembraneClosedCurveSimulator2D() {
 
               <div className="mt-4 space-y-3">
                 <div className="text-sm font-semibold text-slate-200">Resolución</div>
-                <IntSlider label="N" value={N} setValue={(v) => { setRunning(false); setN(v); }} min={64} max={256} step={32} step={16} />
-                <Slider label="L" value={L} setValue={(v) => { setRunning(false); setL(v); }} min={48} max={160} step={2} step={1} />
+                <IntSlider label="N" value={N} setValue={(v) => { setRunning(false); setN(v); }} min={64} max={256} step={16} />
+                <Slider label="L" value={L} setValue={(v) => { setRunning(false); setL(v); }} min={48} max={160} step={1} />
 
                 <div className="mt-2 text-sm font-semibold text-slate-200">Membrana</div>
                 <Slider label="ε" value={epsilon} setValue={(v) => { setRunning(false); setEpsilon(v); }} min={0.9} max={3.0} step={0.05} />
