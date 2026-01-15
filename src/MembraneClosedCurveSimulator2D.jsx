@@ -850,8 +850,8 @@ export default function MembraneClosedCurveSimulator2D() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 to-slate-900 p-3 text-slate-100">
-      <div className="mx-auto max-w-7xl space-y-3">
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 to-slate-900 p-3 text-slate-100 app-shell">
+      <div className="mx-auto max-w-7xl space-y-3 app-container">
         <header className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="min-w-0">
@@ -880,8 +880,8 @@ export default function MembraneClosedCurveSimulator2D() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_360px] md:items-start">
-          <div className="flex flex-col gap-2 rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_360px] md:items-start app-main">
+          <div className="flex flex-col gap-2 rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow canvas-panel">
             <div className="flex flex-wrap items-center justify-between gap-2 px-1">
               <div className="flex items-center gap-2">
                 <div className="text-sm font-semibold text-slate-200">View</div>
@@ -932,9 +932,9 @@ export default function MembraneClosedCurveSimulator2D() {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              <div className="space-y-3">
+          <div className="space-y-3 controls-panel">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 controls-grid">
+              <div className="space-y-3 controls-col">
                 <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
                   <div className="grid grid-cols-2 gap-3">
                     <Select
@@ -1041,7 +1041,7 @@ export default function MembraneClosedCurveSimulator2D() {
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-3 controls-col">
                 <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3 shadow">
                   <div className="space-y-3">
                     <div className="text-sm font-semibold text-slate-200">g (angle)</div>
